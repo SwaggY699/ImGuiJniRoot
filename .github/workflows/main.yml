@@ -23,9 +23,10 @@ jobs:
           ndk-version: '22.1.7171670'
 
       - name: Build with CMake
-        run: |
-          cmake -Bbuild -H.
-          cmake --build build --config Release
+        run: cmake -Bbuild -HImGuiJniRoot/app/src/main/cpp
+          
+      - name: Build native library
+        run: cmake --build build --config Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3

@@ -19,8 +19,6 @@ jobs:
 
       - name: Set up Android NDK
         uses: android-actions/setup-android@v2
-        with:
-          ndk-version: '26.3.11579264'
 
       - name: Build with CMake
         run: cmake -Bbuild -Happ/src/main/cpp

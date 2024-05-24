@@ -2,63 +2,43 @@
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
 # Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.18.1)
 
 # Declares and names the project.
-
 project("imguijniroot")
 
+# Sets compiler flags for the project.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
+# Specifies the directories containing header files.
+include_directories(
+    draw
+    imgui
+    event
+    backends
+    /
+)
 
-include_directories(draw)
-include_directories(imgui)
-include_directories(event)
-include_directories(backends)
-include_directories(/)
-
+# Specifies the source files.
 file(GLOB_RECURSE native_srcs ./*.cpp)
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
 
-add_library( # Sets the name of the library.
-        imguijniroot
+# Creates and names a shared library.
+add_library(
+    imguijniroot
+    SHARED
+    ${native_srcs}
+)
 
-        # Sets the library as a shared library.
-        SHARED
-        ${native_srcs}
-        )
+# Specifies the Android API level.
+set(ANDROID_API_LEVEL "android-24")
 
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
-
-find_library( # Sets the name of the path variable.
-        log-lib
-
-        # Specifies the name of the NDK library that
-        # you want CMake to locate.
-        log)
-
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
-
-target_link_libraries( # Specifies the target library.
-        imguijniroot
-        android
-        EGL
-        GLESv2
-        log
-        )
+# Specifies libraries CMake should link to your target library.
+target_link_libraries(
+    imguijniroot
+    android
+    EGL
+    GLESv2
+    log
+)

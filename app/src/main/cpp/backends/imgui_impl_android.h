@@ -20,7 +20,7 @@
 
 struct ANativeWindow;
 struct AInputEvent;
-#include "Common.h"
+#include <Common.h>
 
 typedef int int32_t;
 
